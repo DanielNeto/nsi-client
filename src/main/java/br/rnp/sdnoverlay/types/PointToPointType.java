@@ -18,7 +18,9 @@ public class PointToPointType {
      *
      */
     public PointToPointType() {
+        setCapacity(0); //minimum value
         setProtection(true);
+        setSymmetricPath(true);
         setPathComputationAlgorithm("Default");
         setDirectionality("Bidirectional");
     }
@@ -28,7 +30,10 @@ public class PointToPointType {
      * @param capacity
      */
     public void setCapacity(Integer capacity) {
-        this.capacity = capacity;
+
+        if (capacity >= 0) {
+            this.capacity = capacity;
+        }
     }
 
     /**

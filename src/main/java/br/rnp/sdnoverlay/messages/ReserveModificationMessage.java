@@ -48,7 +48,6 @@ final public class ReserveModificationMessage {
      * @return
      * @throws SOAPException
      */
-    //TODO: Validate optional parameters and exclude from final message
     private static SOAPMessage createBody (SOAPMessage soapMessage, String connectionId, ReserveCriteriaType criteria) throws SOAPException {
 
         SOAPPart soapPart = soapMessage.getSOAPPart();
@@ -65,11 +64,19 @@ final public class ReserveModificationMessage {
         SOAPElement crite = reserve.addChildElement(soapEnvelope.createName("criteria"));
         crite.addAttribute(soapEnvelope.createName("version"), criteria.getVersion().toString());
 
-        SOAPElement sched = crite.addChildElement(soapEnvelope.createName("schedule"));
-        SOAPElement startTime = sched.addChildElement(soapEnvelope.createName("startTime"));
-        startTime.addTextNode(criteria.getSchedule().getStartTimeString());
-        SOAPElement endTime = sched.addChildElement(soapEnvelope.createName("endTime"));
-        endTime.addTextNode(criteria.getSchedule().getEndTimeString());
+        if (criteria.getSchedule() != null) {
+            SOAPElement sched = crite.addChildElement(soapEnvelope.createName("schedule"));
+            SOAPElement startTime = sched.addChildElement(soapEnvelope.createName("startTime"));
+            startTime.addTextNode(criteria.getSchedule().getStartTimeString());
+            SOAPElement endTime = sched.addChildElement(soapEnvelope.createName("endTime"));
+
+            if (criteria.getSchedule().getEndTime() != null) {
+                endTime.addTextNode(criteria.getSchedule().getEndTimeString());
+            } else {
+                endTime.addAttribute(soapEnvelope.createName("nil", "xsi", "http://www.w3.org/2001/XMLSchema-instance"), "true");
+            }
+
+        }
 
         if (criteria.getPointToPoint() != null) {
             SOAPElement p2p = crite.addChildElement("p2ps", "p2p", "http://schemas.ogf.org/nsi/2013/12/services/point2point");

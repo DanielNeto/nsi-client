@@ -42,6 +42,9 @@ public class ResponseHandlerType {
             setConnectionId(bodyFirstChild.getTextContent());
             setItsOk(true);
         }
+        if (bodyFirstChild.getElementName().getLocalName().equalsIgnoreCase("acknowledgment")) {
+            setItsOk(true);
+        }
 
     }
 

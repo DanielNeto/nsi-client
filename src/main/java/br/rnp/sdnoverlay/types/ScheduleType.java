@@ -1,8 +1,12 @@
 package br.rnp.sdnoverlay.types;
 
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  *
@@ -16,6 +20,16 @@ public class ScheduleType {
 
     private XMLGregorianCalendar startTime;
     private XMLGregorianCalendar endTime;
+
+    /**
+     *
+     * @throws DatatypeConfigurationException
+     */
+    public ScheduleType() throws DatatypeConfigurationException {
+        GregorianCalendar gregorianCalendar = new GregorianCalendar();
+        gregorianCalendar.setTime(new Date()); //return now
+        setStartTime(DatatypeFactory.newInstance().newXMLGregorianCalendar(gregorianCalendar));
+    }
 
     /**
      *

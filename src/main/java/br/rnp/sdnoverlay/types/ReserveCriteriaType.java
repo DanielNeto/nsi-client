@@ -20,6 +20,7 @@ public class ReserveCriteriaType {
      */
     public ReserveCriteriaType() {
         setServiceType(SERVICE_DEFAULT);
+        setVersion(0); //minimum value
     }
 
     /**
@@ -35,7 +36,10 @@ public class ReserveCriteriaType {
      * @param version
      */
     public void setVersion(Integer version) {
-        this.version = version;
+
+        if (version >= 0) {
+            this.version = version;
+        }
     }
 
     /**
