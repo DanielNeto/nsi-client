@@ -7,7 +7,7 @@ import java.util.Calendar;
 /**
  *
  */
-class ScheduleType {
+public class ScheduleType {
 
     /**
      *
@@ -21,7 +21,7 @@ class ScheduleType {
      *
      * @return
      */
-    protected XMLGregorianCalendar getStartTime() {
+    public XMLGregorianCalendar getStartTime() {
         return startTime;
     }
 
@@ -29,7 +29,7 @@ class ScheduleType {
      *
      * @param startTime
      */
-    protected void setStartTime(XMLGregorianCalendar startTime) {
+    public void setStartTime(XMLGregorianCalendar startTime) {
         this.startTime = startTime;
     }
 
@@ -37,7 +37,7 @@ class ScheduleType {
      *
      * @return
      */
-    protected XMLGregorianCalendar getEndTime() {
+    public XMLGregorianCalendar getEndTime() {
         return endTime;
     }
 
@@ -45,7 +45,7 @@ class ScheduleType {
      *
      * @param endTime
      */
-    protected void setEndTime(XMLGregorianCalendar endTime) {
+    public void setEndTime(XMLGregorianCalendar endTime) {
         this.endTime = endTime;
     }
 
@@ -53,7 +53,7 @@ class ScheduleType {
      *
      * @return
      */
-    protected String getStartTimeString() {
+    public String getStartTimeString() {
 
         Calendar calendar = startTime.toGregorianCalendar();
 
@@ -68,7 +68,7 @@ class ScheduleType {
      *
      * @return
      */
-    protected String getEndTimeString() {
+    public String getEndTimeString() {
 
         Calendar calendar = endTime.toGregorianCalendar();
 

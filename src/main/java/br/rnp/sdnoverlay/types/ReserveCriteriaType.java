@@ -3,7 +3,7 @@ package br.rnp.sdnoverlay.types;
 /**
  *
  */
-class ReserveCriteriaType {
+public class ReserveCriteriaType {
 
     /**
      *
@@ -18,7 +18,7 @@ class ReserveCriteriaType {
     /**
      *
      */
-    protected ReserveCriteriaType() {
+    public ReserveCriteriaType() {
         setServiceType(SERVICE_DEFAULT);
     }
 
@@ -26,7 +26,7 @@ class ReserveCriteriaType {
      *
      * @return
      */
-    protected Integer getVersion() {
+    public Integer getVersion() {
         return version;
     }
 
@@ -34,7 +34,7 @@ class ReserveCriteriaType {
      *
      * @param version
      */
-    protected void setVersion(Integer version) {
+    public void setVersion(Integer version) {
         this.version = version;
     }
 
@@ -42,7 +42,7 @@ class ReserveCriteriaType {
      *
      * @return
      */
-    protected ScheduleType getSchedule() {
+    public ScheduleType getSchedule() {
         return schedule;
     }
 
@@ -50,7 +50,7 @@ class ReserveCriteriaType {
      *
      * @param schedule
      */
-    protected void setSchedule(ScheduleType schedule) {
+    public void setSchedule(ScheduleType schedule) {
         this.schedule = schedule;
     }
 
@@ -58,7 +58,7 @@ class ReserveCriteriaType {
      *
      * @return
      */
-    protected String getServiceType() {
+    public String getServiceType() {
         return serviceType;
     }
 
@@ -66,7 +66,7 @@ class ReserveCriteriaType {
      *
      * @param serviceType
      */
-    protected void setServiceType(String serviceType) {
+    public void setServiceType(String serviceType) {
         this.serviceType = serviceType;
     }
 
@@ -74,7 +74,7 @@ class ReserveCriteriaType {
      *
      * @return
      */
-    protected PointToPointType getPointToPoint() {
+    public PointToPointType getPointToPoint() {
         return pointToPoint;
     }
 
@@ -82,7 +82,7 @@ class ReserveCriteriaType {
      *
      * @param pointToPoint
      */
-    protected void setPointToPoint(PointToPointType pointToPoint) {
+    public void setPointToPoint(PointToPointType pointToPoint) {
         this.pointToPoint = pointToPoint;
     }
 }

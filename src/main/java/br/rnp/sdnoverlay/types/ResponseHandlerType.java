@@ -6,7 +6,7 @@ import javax.xml.soap.*;
 /**
  *
  */
-class ResponseHandlerType {
+public class ResponseHandlerType {
 
     private String connectionId;
     private String faultCode;
@@ -18,7 +18,7 @@ class ResponseHandlerType {
      * @param response
      * @throws SOAPException
      */
-    protected ResponseHandlerType(SOAPMessage response) throws SOAPException {
+    public ResponseHandlerType(SOAPMessage response) throws SOAPException {
 
         SOAPPart soapPart = response.getSOAPPart();
         SOAPEnvelope soapEnvelope = soapPart.getEnvelope();
@@ -49,7 +49,7 @@ class ResponseHandlerType {
      *
      * @return
      */
-    protected String getConnectionId() {
+    public String getConnectionId() {
         return connectionId;
     }
 
@@ -65,7 +65,7 @@ class ResponseHandlerType {
      *
      * @return
      */
-    protected String getFaultCode() {
+    public String getFaultCode() {
         return faultCode;
     }
 
@@ -81,7 +81,7 @@ class ResponseHandlerType {
      *
      * @return
      */
-    protected String getFaultString() {
+    public String getFaultString() {
         return faultString;
     }
 
@@ -97,7 +97,7 @@ class ResponseHandlerType {
      *
      * @return
      */
-    protected Boolean itsOk () {
+    public Boolean itsOk () {
         return itsOk;
     }
 

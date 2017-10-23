@@ -4,7 +4,8 @@ package br.rnp.sdnoverlay.types;
 /**
  *
  */
-class PointToPointType {
+//TODO: add ERO parameter (nodes in the path)
+public class PointToPointType {
     private Integer capacity;
     private String directionality;
     private Boolean symmetricPath;
@@ -16,7 +17,7 @@ class PointToPointType {
     /**
      *
      */
-    protected PointToPointType() {
+    public PointToPointType() {
         setProtection(true);
         setPathComputationAlgorithm("Default");
         setDirectionality("Bidirectional");
@@ -26,7 +27,7 @@ class PointToPointType {
      *
      * @param capacity
      */
-    protected void setCapacity(Integer capacity) {
+    public void setCapacity(Integer capacity) {
         this.capacity = capacity;
     }
 
@@ -34,7 +35,7 @@ class PointToPointType {
      *
      * @return
      */
-    protected Integer getCapacity() {
+    public Integer getCapacity() {
         return capacity;
     }
 
@@ -42,7 +43,7 @@ class PointToPointType {
      *
      * @param directionality
      */
-    protected void setDirectionality(String directionality) {
+    public void setDirectionality(String directionality) {
 
         if (directionality.equalsIgnoreCase("Bidirectional")) {
             this.directionality = "Bidirectional";
@@ -56,7 +57,7 @@ class PointToPointType {
      *
      * @return
      */
-    protected String getDirectionality() {
+    public String getDirectionality() {
         return directionality;
     }
 
@@ -64,7 +65,7 @@ class PointToPointType {
      *
      * @param symmetricPath
      */
-    protected void setSymmetricPath(Boolean symmetricPath) {
+    public void setSymmetricPath(Boolean symmetricPath) {
         this.symmetricPath = symmetricPath;
     }
 
@@ -72,7 +73,7 @@ class PointToPointType {
      *
      * @return
      */
-    protected Boolean getSymmetricPath() {
+    public Boolean getSymmetricPath() {
         return symmetricPath;
     }
 
@@ -80,7 +81,7 @@ class PointToPointType {
      *
      * @param sourceSTP
      */
-    protected void setSourceSTP(String sourceSTP) {
+    public void setSourceSTP(String sourceSTP) {
         this.sourceSTP = sourceSTP;
     }
 
@@ -88,7 +89,7 @@ class PointToPointType {
      *
      * @return
      */
-    protected String getSourceSTP() {
+    public String getSourceSTP() {
         return sourceSTP;
     }
 
@@ -96,7 +97,7 @@ class PointToPointType {
      *
      * @param destSTP
      */
-    protected void setDestSTP(String destSTP) {
+    public void setDestSTP(String destSTP) {
         this.destSTP = destSTP;
     }
 
@@ -104,7 +105,7 @@ class PointToPointType {
      *
      * @return
      */
-    protected String getDestSTP() {
+    public String getDestSTP() {
         return destSTP;
     }
 
@@ -112,7 +113,7 @@ class PointToPointType {
      *
      * @param protection
      */
-    protected void setProtection(Boolean protection) {
+    public void setProtection(Boolean protection) {
         this.protection = protection;
     }
 
@@ -120,7 +121,7 @@ class PointToPointType {
      *
      * @return
      */
-    protected Boolean getProtection() {
+    public Boolean getProtection() {
         return protection;
     }
 
@@ -128,7 +129,7 @@ class PointToPointType {
      *
      * @return
      */
-    protected String getPathComputationAlgorithm() {
+    public String getPathComputationAlgorithm() {
         return pathComputationAlgorithm;
     }
 
@@ -136,7 +137,7 @@ class PointToPointType {
      *
      * @param pathComputationAlgorithm
      */
-    protected void setPathComputationAlgorithm(String pathComputationAlgorithm) {
+    public void setPathComputationAlgorithm(String pathComputationAlgorithm) {
         if (pathComputationAlgorithm.equalsIgnoreCase("default")) {
             this.pathComputationAlgorithm = pathComputationAlgorithm.toUpperCase();
         }
