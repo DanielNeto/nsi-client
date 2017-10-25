@@ -24,28 +24,61 @@ public class ResponseHandlerType {
         SOAPEnvelope soapEnvelope = soapPart.getEnvelope();
         SOAPBody soapBody = soapEnvelope.getBody();
 
-        SOAPElement bodyFirstChild = (SOAPElement) soapBody.getFirstChild();
-        if (bodyFirstChild.getElementName().getLocalName().equalsIgnoreCase("Fault")) {
-            SOAPElement faultText = (SOAPElement) bodyFirstChild.getChildElements(new QName("faultstring")).next();
-            setFaultString(faultText.getTextContent());
+        Object bodyFirstChildObj = soapBody.getFirstChild();
 
-            if (bodyFirstChild.getChildElements(new QName("detail")).hasNext()) {
-                SOAPElement details = (SOAPElement) bodyFirstChild.getChildElements(new QName("detail")).next();
-                SOAPElement detailsChild = (SOAPElement) details.getFirstChild();
-                SOAPElement errorId = (SOAPElement) detailsChild.getChildElements(new QName("errorId")).next();
-                setFaultCode(errorId.getTextContent());
+        if (bodyFirstChildObj instanceof javax.xml.soap.SOAPElement) {
+
+            SOAPElement bodyFirstChild = (SOAPElement) soapBody.getFirstChild();
+
+            if (bodyFirstChild.getElementName().getLocalName().equalsIgnoreCase("Fault")) {
+
+                SOAPElement faultText = (SOAPElement) bodyFirstChild.getChildElements(new QName("faultstring")).next();
+                setFaultString(faultText.getTextContent());
+
+                if (bodyFirstChild.getChildElements(new QName("detail")).hasNext()) {
+                    SOAPElement details = (SOAPElement) bodyFirstChild.getChildElements(new QName("detail")).next();
+                    SOAPElement detailsChild = (SOAPElement) details.getFirstChild();
+                    SOAPElement errorId = (SOAPElement) detailsChild.getChildElements(new QName("errorId")).next();
+                    setFaultCode(errorId.getTextContent());
+                }
+
+                setItsOk(false);
+            }
+            if (bodyFirstChild.getElementName().getLocalName().equalsIgnoreCase("reserveFailed")) {
+
+                if (bodyFirstChild.getChildElements(new QName("serviceException")).hasNext()) {
+                    SOAPElement serviceException = (SOAPElement) bodyFirstChild.getChildElements(new QName("serviceException")).next();
+                    SOAPElement errorId = (SOAPElement) serviceException.getChildElements(new QName("errorId")).next();
+                    setFaultCode(errorId.getTextContent());
+                    SOAPElement errorText = (SOAPElement) serviceException.getChildElements(new QName("text")).next();
+                    setFaultString(errorText.getTextContent());
+                }
+
+                setItsOk(false);
+            }
+            if (bodyFirstChild.getElementName().getLocalName().equalsIgnoreCase("reserveResponse")) {
+
+                setConnectionId(bodyFirstChild.getTextContent());
+                setItsOk(true);
+            }
+            if (bodyFirstChild.getElementName().getLocalName().equalsIgnoreCase("acknowledgment")) {
+
+                setItsOk(true);
             }
 
-            setItsOk(false);
-        }
-        if (bodyFirstChild.getElementName().getLocalName().equalsIgnoreCase("reserveResponse")) {
-            setConnectionId(bodyFirstChild.getTextContent());
-            setItsOk(true);
-        }
-        if (bodyFirstChild.getElementName().getLocalName().equalsIgnoreCase("acknowledgment")) {
-            setItsOk(true);
-        }
+        } else {
 
+            if (bodyFirstChildObj instanceof com.sun.xml.internal.messaging.saaj.soap.impl.TextImpl) {
+
+                setFaultString(soapBody.getTextContent());
+                setItsOk(false);
+
+            } else {
+
+                setFaultString("Unknown Message Format!");
+                setItsOk(false);
+            }
+        }
     }
 
     /**
