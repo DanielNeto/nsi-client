@@ -4,7 +4,13 @@ import javax.xml.namespace.QName;
 import javax.xml.soap.*;
 
 /**
+ * This class handles the response message received
+ * by the SOAPConnection.call.
  *
+ *
+ * @author Daniel Neto
+ * @version %I%, %G%
+ * @since 2017-10-23
  */
 public class ResponseHandlerType {
 
@@ -14,8 +20,11 @@ public class ResponseHandlerType {
     private Boolean itsOk;
 
     /**
+     * Constructor of the class that parses the received
+     * message and stores some information in internal
+     * variables.
      *
-     * @param response
+     * @param response The SOAPMessage received
      * @throws SOAPException
      */
     public ResponseHandlerType(SOAPMessage response) throws SOAPException {
@@ -82,14 +91,18 @@ public class ResponseHandlerType {
     }
 
     /**
+     * Get the connectionId variable value.
+     * This variable stores the connection identification
+     * received in a success message of a reserve request.
      *
-     * @return
+     * @return connectionId as String.
      */
     public String getConnectionId() {
         return connectionId;
     }
 
     /**
+     * Set the connectionId variable value.
      *
      * @param connectionId
      */
@@ -98,14 +111,18 @@ public class ResponseHandlerType {
     }
 
     /**
+     * Get the faultCode variable value.
+     * This variable stores the error code of a error
+     * message.
      *
-     * @return
+     * @return faultCode as String.
      */
     public String getFaultCode() {
         return faultCode;
     }
 
     /**
+     * Set the faultCode variable value.
      *
      * @param faultCode
      */
@@ -114,14 +131,17 @@ public class ResponseHandlerType {
     }
 
     /**
+     * Get the faultString variable value.
+     * This variable stores the text of a error message.
      *
-     * @return
+     * @return faultString as String.
      */
     public String getFaultString() {
         return faultString;
     }
 
     /**
+     * Set the faultString variable value.
      *
      * @param faultString
      */
@@ -130,14 +150,19 @@ public class ResponseHandlerType {
     }
 
     /**
+     * Get the itsOk variable value.
+     * This variable indicates if the message received
+     * is an error message (false) or a success message
+     * (true).
      *
-     * @return
+     * @return itsOk as Boolean.
      */
     public Boolean itsOk () {
         return itsOk;
     }
 
     /**
+     * Set the itsOk variable value.
      *
      * @param itsOk
      */

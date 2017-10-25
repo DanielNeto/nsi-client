@@ -9,12 +9,17 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
+ * ScheduleType is a class to store the start and
+ * end time of a reserve request.
  *
+ * @author Daniel Neto
+ * @version %I%, %G%
+ * @since 2017-10-23
  */
 public class ScheduleType {
 
     /**
-     *
+     * Date format expected by the provider.
      */
     final private static String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
 
@@ -22,6 +27,8 @@ public class ScheduleType {
     private XMLGregorianCalendar endTime;
 
     /**
+     * Constructor of the class that stores the default
+     * value in startTime using the current date.
      *
      * @throws DatatypeConfigurationException
      */
@@ -32,14 +39,17 @@ public class ScheduleType {
     }
 
     /**
+     * Get the startTime variable value in
+     * XMLGregorianCalendar type.
      *
-     * @return
+     * @return startTime as XMLGregorianCalendar.
      */
     public XMLGregorianCalendar getStartTime() {
         return startTime;
     }
 
     /**
+     * Set the startTime variable value.
      *
      * @param startTime
      */
@@ -48,14 +58,17 @@ public class ScheduleType {
     }
 
     /**
+     * Get the endTime variable value in
+     * XMLGregorianCalendar type.
      *
-     * @return
+     * @return endTime as XMLGregorianCalendar.
      */
     public XMLGregorianCalendar getEndTime() {
         return endTime;
     }
 
     /**
+     * Set the endTime variable value.
      *
      * @param endTime
      */
@@ -64,8 +77,10 @@ public class ScheduleType {
     }
 
     /**
+     * Get the startTime variable value in
+     * String type.
      *
-     * @return
+     * @return startTime as String.
      */
     public String getStartTimeString() {
 
@@ -79,8 +94,10 @@ public class ScheduleType {
     }
 
     /**
+     * Get the endTime variable value in
+     * String type.
      *
-     * @return
+     * @return endTime as String.
      */
     public String getEndTimeString() {
 
