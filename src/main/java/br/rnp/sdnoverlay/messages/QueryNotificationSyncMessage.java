@@ -18,11 +18,30 @@ package br.rnp.sdnoverlay.messages;
 
 import javax.xml.soap.*;
 
+/**
+ *
+ */
 final public class QueryNotificationSyncMessage {
 
+    /**
+     *
+     */
     final private static String SOAP_ACTION = "http://schemas.ogf.org/nsi/2013/12/connection/service/queryNotificationSync";
 
+    /**
+     *
+     * @param connectionId
+     * @param providerNSA
+     * @param requesterNSA
+     * @param replyTo
+     * @return
+     * @throws SOAPException
+     */
     public static SOAPMessage createMessage (String connectionId, String providerNSA, String requesterNSA, String replyTo) throws SOAPException {
+
+        if (replyTo == null || replyTo.equals("")) {
+            throw new SOAPException("ReplyTo is mandatory for QueryNotificationSyncMessage.");
+        }
 
         MessageFactory messageFactory = MessageFactory.newInstance();
         SOAPMessage soapMessage = messageFactory.createMessage();
@@ -38,6 +57,13 @@ final public class QueryNotificationSyncMessage {
         return soapMessage;
     }
 
+    /**
+     *
+     * @param soapMessage
+     * @param connectionId
+     * @return
+     * @throws SOAPException
+     */
     private static SOAPMessage createBody (SOAPMessage soapMessage, String connectionId) throws SOAPException {
 
         SOAPPart soapPart = soapMessage.getSOAPPart();
