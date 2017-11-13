@@ -39,10 +39,6 @@ final public class QueryResultSyncMessage {
      */
     public static SOAPMessage createMessage (String connectionId, String providerNSA, String requesterNSA, String replyTo) throws SOAPException {
 
-        if (replyTo == null || replyTo.equals("")) {
-            throw new SOAPException("ReplyTo is mandatory for QueryResultSyncMessage.");
-        }
-
         MessageFactory messageFactory = MessageFactory.newInstance();
         SOAPMessage soapMessage = messageFactory.createMessage();
 

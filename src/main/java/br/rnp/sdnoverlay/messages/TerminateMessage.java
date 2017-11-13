@@ -20,6 +20,9 @@ import javax.xml.soap.*;
 
 /**
  *
+ * @author Daniel Neto
+ * @version %I%, %G%
+ * @since 2017-10-23
  */
 final public class TerminateMessage {
 
