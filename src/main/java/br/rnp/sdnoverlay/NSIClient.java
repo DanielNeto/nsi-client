@@ -17,6 +17,7 @@
 package br.rnp.sdnoverlay;
 
 import br.rnp.sdnoverlay.messages.*;
+import br.rnp.sdnoverlay.types.QuerySummaryResponseType;
 import br.rnp.sdnoverlay.types.ReserveCriteriaType;
 import br.rnp.sdnoverlay.types.ResponseHandlerType;
 
@@ -35,7 +36,7 @@ public class NSIClient {
     /**
      *
      */
-    final private static String ENDPOINT_URL_DEFAULT = "http://10.128.12.16:9000/nsi-v2/ConnectionServiceProvider";
+    final private static String ENDPOINT_URL_DEFAULT = "http://10.0.2.4:9000/nsi-v2/ConnectionServiceProvider";
     final private static String REQUESTER_DEFAULT = "urn:ogf:network:cipo.rnp.br:2014:nsa:nsi-requester";
     final private static String PROVIDER_DEFAULT = "urn:ogf:network:cipo.rnp.br:2014:nsa:safnari";
 
@@ -294,5 +295,32 @@ public class NSIClient {
         SOAPMessage soapMessage = TerminateMessage.createMessage(connectionId, getProviderNSA(), getRequesterNSA(), replyTo);
         this.soapConnection.call(soapMessage,getEndpoint());
 
+    }
+
+    public QuerySummaryResponseType querySummarySync(String connectionId) throws SOAPException {
+
+        SOAPMessage soapMessage = QuerySummarySyncMessage.createMessage(connectionId, getProviderNSA(), getRequesterNSA(), "");
+        SOAPMessage soapResponse = this.soapConnection.call(soapMessage,getEndpoint());
+
+        ResponseHandlerType response = new ResponseHandlerType(soapResponse);
+
+        if (response.itsOk()) {
+
+            QuerySummaryResponseType querySummaryResponse = new QuerySummaryResponseType();
+
+            if (response.getSourceVlan() != 0) {
+                querySummaryResponse.setSourceVlan(response.getSourceVlan());
+            }
+            if (response.getDestVlan() != 0) {
+                querySummaryResponse.setDestVlan(response.getDestVlan());
+            }
+            if (response.getConnectionStatesType() != null) {
+                querySummaryResponse.setConnectionStates(response.getConnectionStatesType());
+            }
+
+            return querySummaryResponse;
+        } else {
+            throw new SOAPException();
+        }
     }
 }

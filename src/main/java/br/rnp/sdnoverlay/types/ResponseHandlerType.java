@@ -34,6 +34,9 @@ public class ResponseHandlerType {
     private String faultCode;
     private String faultString;
     private Boolean itsOk;
+    private ConnectionStatesType connectionStatesType;
+    private long sourceVlan;
+    private long destVlan;
 
     /**
      * Constructor of the class that parses the received
@@ -44,6 +47,15 @@ public class ResponseHandlerType {
      * @throws SOAPException
      */
     public ResponseHandlerType(SOAPMessage response) throws SOAPException {
+
+        //Initializing intern variables
+        connectionId = null;
+        faultCode = null;
+        faultString = null;
+        itsOk = false;
+        connectionStatesType = null;
+        sourceVlan = 0;
+        destVlan = 0;
 
         SOAPPart soapPart = response.getSOAPPart();
         SOAPEnvelope soapEnvelope = soapPart.getEnvelope();
@@ -85,6 +97,64 @@ public class ResponseHandlerType {
 
                 setConnectionId(bodyFirstChild.getTextContent());
                 setItsOk(true);
+            }
+            if (bodyFirstChild.getElementName().getLocalName().equalsIgnoreCase("querySummarySyncConfirmed")) {
+
+                if (bodyFirstChild.getChildElements(new QName("reservation")).hasNext()) {
+
+                    SOAPElement reservation = (SOAPElement) bodyFirstChild.getChildElements(new QName("reservation")).next();
+
+                    if (reservation.getChildElements(new QName("criteria")).hasNext()) {
+
+                        SOAPElement criteria = (SOAPElement) reservation.getChildElements(new QName("criteria")).next();
+
+                        SOAPElement p2ps = (SOAPElement) criteria.getChildElements(new QName("http://schemas.ogf.org/nsi/2013/12/services/point2point", "p2ps", "nsi_p2p")).next();
+
+                        SOAPElement sourceStp = (SOAPElement) p2ps.getChildElements(new QName("sourceSTP")).next();
+                        SOAPElement destStp = (SOAPElement) p2ps.getChildElements(new QName("destSTP")).next();
+
+                        String sourceUrn = sourceStp.getTextContent();
+                        String destUrn = destStp.getTextContent();
+
+                        if (sourceUrn.contains("vlan=")) {
+                            String vlanS = sourceUrn.substring(sourceUrn.lastIndexOf("vlan=") + 5);
+                            setSourceVlan(Long.parseLong(vlanS));
+                        }
+                        if (destUrn.contains("vlan=")) {
+                            String vlanD = destUrn.substring(destUrn.lastIndexOf("vlan=") + 5);
+                            setDestVlan(Long.parseLong(vlanD));
+                        }
+                    }
+
+                    if (reservation.getChildElements(new QName("connectionStates")).hasNext()) {
+
+                        SOAPElement connStates = (SOAPElement) reservation.getChildElements(new QName("connectionStates")).next();
+
+                        SOAPElement reservState = (SOAPElement) connStates.getChildElements(new QName("reservationState")).next();
+                        SOAPElement provState = (SOAPElement) connStates.getChildElements(new QName("provisionState")).next();
+                        SOAPElement lifeCycleState = (SOAPElement) connStates.getChildElements(new QName("lifecycleState")).next();
+                        SOAPElement dataPlaneStatus = (SOAPElement) connStates.getChildElements(new QName("dataPlaneStatus")).next();
+
+                        ReservationStateEnumType reservationStateEnumType = ReservationStateEnumType.fromValue(reservState.getTextContent());
+                        ProvisionStateEnumType provisionStateEnumType = ProvisionStateEnumType.fromValue(provState.getTextContent());
+                        LifecycleStateEnumType lifecycleStateEnumType = LifecycleStateEnumType.fromValue(lifeCycleState.getTextContent());
+
+                        SOAPElement dataPlaneActive = (SOAPElement) dataPlaneStatus.getChildElements(new QName("active")).next();
+                        SOAPElement dataPlaneVersion = (SOAPElement) dataPlaneStatus.getChildElements(new QName("version")).next();
+                        SOAPElement dataPlaneConsist = (SOAPElement) dataPlaneStatus.getChildElements(new QName("versionConsistent")).next();
+
+                        DataPlaneStatusType dataPlaneStatusType = new DataPlaneStatusType();
+
+                        dataPlaneStatusType.setActive(dataPlaneActive.getTextContent().equalsIgnoreCase("true"));
+                        dataPlaneStatusType.setVersion(Integer.parseInt(dataPlaneVersion.getTextContent()));
+                        dataPlaneStatusType.setVersionConsistent(dataPlaneConsist.getTextContent().equalsIgnoreCase("true"));
+
+                        this.connectionStatesType = new ConnectionStatesType();
+                        setConnectionStatesType(reservationStateEnumType, provisionStateEnumType, lifecycleStateEnumType, dataPlaneStatusType);
+                    }
+
+                    setItsOk(true);
+                }
             }
             if (bodyFirstChild.getElementName().getLocalName().equalsIgnoreCase("acknowledgment")) {
 
@@ -184,5 +254,36 @@ public class ResponseHandlerType {
      */
     private void setItsOk(Boolean itsOk) {
         this.itsOk = itsOk;
+    }
+
+    private void setSourceVlan(long sourceVlan) {
+        this.sourceVlan = sourceVlan;
+    }
+
+    public long getSourceVlan() {
+        return sourceVlan;
+    }
+
+    private void setDestVlan(long destVlan) {
+        this.destVlan = destVlan;
+    }
+
+    public long getDestVlan() {
+        return destVlan;
+    }
+
+    private void setConnectionStatesType(ConnectionStatesType connectionStatesType) {
+        this.connectionStatesType = connectionStatesType;
+    }
+
+    private void setConnectionStatesType(ReservationStateEnumType reserv, ProvisionStateEnumType prov, LifecycleStateEnumType life, DataPlaneStatusType data) {
+        this.connectionStatesType.setReservationState(reserv);
+        this.connectionStatesType.setProvisionState(prov);
+        this.connectionStatesType.setLifeCycleState(life);
+        this.connectionStatesType.setDataPlaneStatus(data);
+    }
+
+    public ConnectionStatesType getConnectionStatesType() {
+        return connectionStatesType;
     }
 }
